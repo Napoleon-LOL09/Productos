@@ -1,10 +1,7 @@
 from dataclasses import field, fields
 from django import forms
 from .models import cat_P, ges_P, review
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.contrib.auth import password_validation
-from django.contrib.auth.password_validation import MinimumLengthValidator, CommonPasswordValidator, NumericPasswordValidator
+
 
 class registro_usuario (forms.Form):
     username = forms.CharField(max_length=150)

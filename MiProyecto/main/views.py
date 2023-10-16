@@ -2,14 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse
 from django.db import IntegrityError
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
 from .forms import categoria_P, gestion_P, review_Form, registro_usuario
-from django.contrib.auth.decorators import login_required
 from .models import cat_P, ges_P, review, User
-
-
 
 def register(request):
     if request.method == 'POST':
@@ -134,32 +128,26 @@ def detalles_producto(request, categoria_id):
 def reviewss(request):
     namePro = ges_P.objects.values('name').distinct()
     error = None
-    prod_selec = None
-    review_pro = None
-    
+    producto_nombre = None
+
     if request.method == 'POST':
         form = review_Form(request.POST)
         producto_nombre = request.POST.get('Productos')
- 
-        
+
         if producto_nombre:
             producto = ges_P.objects.get(name=producto_nombre)
             form.instance.nameP = producto
         
             if form.is_valid():
-                form.save()
-                review_pro = review.objects.filter(nameP=producto)
-                prod_selec = producto_nombre
+                form.save()  
                 return redirect('review')
         else:
             error = "Por Favor, Seleccione una de las opciones"
-            
     else:
         form = review_Form()
     
     return render (request, 'review.html', {'form': form, 'namePro' : namePro, 
-                            'prod_selec' : prod_selec, 'error' : error,
-                            'review_pro' : review_pro,})
+                            'producto_nombre' : producto_nombre, 'error' : error})
 
 def mostrar_todos (request):
     productos = ges_P.objects.all()
