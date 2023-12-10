@@ -1,4 +1,0 @@
-pip install Pillow
-pip install django-ckeditor
-pip install django-crispy-forms
-pip install django
